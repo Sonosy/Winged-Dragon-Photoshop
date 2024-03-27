@@ -1,19 +1,29 @@
+// FCAI – Structured Programming – 2024 - Assignment 3
+// Program Name: CS112_A3_Part1_S5_20230045_20230207_20231137.cpp
+// Program Description: This program add filters to images which are:
+//                      1. Turn image into black and white. 2. Turn Image into grayscale.
+//                      3. Blur the image. 4. Rotate image (90, 180, 270)
+//                      5. Invert the colors of the image.
+// Last Modification Date: 27/03/2024
+// Author1: Adham Ghallab  ID: 20230045  Group: S5
+// Author2: Abdelrahman Sonosy  ID: 20230207  Group: S5
+// Author3: Mohamed Ayman Fayz  ID: 20231137  Group: S12
+// Who did what: Adham Ghallab (20230045) -> Black and White.
+//               Abdelrahman Sonosy (20230207) -> Grayscale.
+//               Mohamed Ayman Fayz (20231137) -> Blur, Rotate, Invert.
+
 #include <iostream>
-#include "image_class.h"
+#include "Image_Class.h"
 using namespace std;
 
 // Function Prototypes
+void blackAndWhite(string name, string newName);
 void GreyScale(string name, string newName);
 void blur(Image& img, const string& imgName);
 void invert(Image img, string imgName);
 void Rotate90(Image img, string imgName);
 void Rotate180(Image img, string imgName);
 void Rotate270(Image img, string imgName);
-
-
-
-
-
 
 int main() {
     string imgName;
@@ -34,7 +44,8 @@ int main() {
         cout << "4. Invert\n";
         cout << "5. Blur\n";
         cout << "6. Grey Scale\n";
-        cout << "7. Exit\n"; 
+        cout << "7. Black and White\n";
+        cout << "0. Exit\n";
         cout << "Enter your choice: ";
         cin >> choice;
 
@@ -57,6 +68,9 @@ int main() {
             GreyScale(imgName, imgName);
             cout << "Image Grey scaled successfully.\n";
         } else if (choice == 7) {
+            blackAndWhite(imgName, imgName);
+            cout << "Image turned to black and white successfully.\n";
+        } else if (choice == 0) {
             cout << "Exiting...\n";
             s = 1;
         } else {
@@ -67,6 +81,37 @@ int main() {
 }
 
 // Function Definitions
+
+// Function to GreyScale the image
+void blackAndWhite(string name, string newName){
+    Image BlackAndWhite(name);
+    const int THRESHOLD = 127;
+    for (int i = 0; i < BlackAndWhite.width; ++i) {
+        for (int j = 0; j < BlackAndWhite.height; ++j) {
+            unsigned  int avg = 0; // Initialize average value
+
+            for (int k = 0; k < 3; ++k) {
+                avg += BlackAndWhite(i, j, k); // Accumulate pixel values
+            }
+
+            avg /= 3; // Calculate average
+
+            // If the average is greater than or equal the THRESHOLD(127) turn the pixel black else turn the pixel white
+            if (avg <= THRESHOLD) {
+                BlackAndWhite(i, j, 0) = 0;
+                BlackAndWhite(i, j, 1) = 0;
+                BlackAndWhite(i, j, 2) = 0;
+            }
+            else {
+                BlackAndWhite(i, j, 0) = 255;
+                BlackAndWhite(i, j, 1) = 255;
+                BlackAndWhite(i, j, 2) = 255;
+            }
+        }
+    }
+    newName = '1' + name;
+    BlackAndWhite.saveImage(newName);
+}
 
 // Function to GreyScale the image
 void GreyScale(string name, string newName){
