@@ -2,6 +2,91 @@
 #include "image_class.h"
 using namespace std;
 
+// Function Prototypes
+void GreyScale(string name, string newName);
+void blur(Image& img, const string& imgName);
+void invert(Image img, string imgName);
+void Rotate90(Image img, string imgName);
+void Rotate180(Image img, string imgName);
+void Rotate270(Image img, string imgName);
+
+
+
+
+
+
+int main() {
+    string imgName;
+    cout << "Enter Image name with extention\n";
+    cin >> imgName;
+
+    // Store the image
+    Image img(imgName);
+
+
+    int choice , s;
+    s = 0;
+    while ( s == 0) {
+        cout << "Menu:\n";
+        cout << "1. Rotate 90 degrees\n";
+        cout << "2. Rotate 180 degrees\n";
+        cout << "3. Rotate 270 degrees\n";
+        cout << "4. Invert\n";
+        cout << "5. Blur\n";
+        cout << "6. Grey Scale\n";
+        cout << "7. Exit\n"; 
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        if (choice == 1) {
+            Rotate90(img, imgName);
+            cout << "Image rotated 90 degrees successfully.\n";
+        } else if (choice == 2) {
+            Rotate180(img, imgName);
+            cout << "Image rotated 180 degrees successfully.\n";
+        } else if (choice == 3) {
+            Rotate270(img, imgName);
+            cout << "Image rotated 270 degrees successfully.\n";
+        } else if (choice == 4) {
+            invert(img, imgName);
+            cout << "Image inverted successfully.\n";
+        } else if (choice == 5) {
+            blur(img, imgName);
+            cout << "Image blurred successfully.\n";
+        } else if (choice == 6) {
+            GreyScale(imgName, imgName);
+            cout << "Image Grey scaled successfully.\n";
+        } else if (choice == 7) {
+            cout << "Exiting...\n";
+            s = 1;
+        } else {
+            cout << "Invalid choice. Please enter a number between 1 and 6.\n";
+        }
+    }
+    return 0;
+}
+
+// Function Definitions
+
+// Function to GreyScale the image
+void GreyScale(string name, string newName){
+    Image GreyScale(name);
+    for (int i = 0, width = GreyScale.width; i < width; ++i){
+        for (int j = 0, height = GreyScale.height; j < height; ++j){
+            unsigned int avg = 0;
+            for (int k = 0, channels = GreyScale.channels; k < channels; ++k){
+                avg += GreyScale(i, j, k); 
+            }
+            avg /= 3;
+            for (int k = 0, channels = GreyScale.channels; k < channels; ++k){
+                GreyScale(i, j, k) = avg; 
+            }
+        } 
+    }
+    newName = '1' + name;
+    GreyScale.saveImage(newName);
+}
+
 // Function to blur the image
 void blur(Image& img, const string& imgName) {
     // Creating a copy of the original image
@@ -53,10 +138,8 @@ void blur(Image& img, const string& imgName) {
     imgg3.saveImage("1" + imgName);
 }
 
-
-
-
-Image invert(Image img, string imgName)
+// Function to Invert the Image
+void invert(Image img, string imgName)
 {
     Image imgg(img); 
     for (int i = 0; i < imgg.width; i++)
@@ -72,13 +155,8 @@ Image invert(Image img, string imgName)
     imgg.saveImage("1" + imgName);
 }
 
-
-
-
-
-
 // Function to rotate the image 180 degrees
-Image Rotate180(Image img, string imgName)
+void Rotate180(Image img, string imgName)
 {
     // Create copies of the input image with different dimensions
     Image imgg(img);
@@ -140,7 +218,7 @@ Image Rotate180(Image img, string imgName)
 }
 
 // Function to rotate the image 90 degrees
-Image Rotate90(Image img, string imgName)
+void Rotate90(Image img, string imgName)
 {
     // Create copies of the input image with different dimensions
     Image img1(img);
@@ -273,10 +351,8 @@ Image Rotate90(Image img, string imgName)
     img7.saveImage("1" + imgName);
 }
 
-
-
 // Function to rotate the image 270 degrees
-Image Rotate270(Image img, string imgName)
+void Rotate270(Image img, string imgName)
 {
     // Create copies of the input image with different dimensions
     Image imgg(img);
@@ -325,55 +401,3 @@ Image Rotate270(Image img, string imgName)
     // Save the final rotated image
     imgg2.saveImage("1" + imgName);
 }
-
-
-
-
-int main() {
-    string imgName;
-    cout << "Enter Image name with extention\n";
-    cin >> imgName;
-
-    // Store the image
-    Image img(imgName);
-
-
-    int choice , s;
-    s = 0;
-    while ( s == 0) {
-        cout << "Menu:\n";
-        cout << "1. Rotate 90 degrees\n";
-        cout << "2. Rotate 180 degrees\n";
-        cout << "3. Rotate 270 degrees\n";
-        cout << "4. Invert\n";
-        cout << "5. Blur\n";
-        cout << "6. Exit\n"; 
-        cout << "Enter your choice: ";
-        cin >> choice;
-
-        if (choice == 1) {
-             Rotate90(img, imgName);
-            cout << "Image rotated 90 degrees successfully.\n";
-        } else if (choice == 2) {
-            Rotate180(img, imgName);
-            cout << "Image rotated 180 degrees successfully.\n";
-        } else if (choice == 3) {
-            Rotate270(img, imgName);
-            cout << "Image rotated 270 degrees successfully.\n";
-        } else if (choice == 4) {
-            invert(img, imgName);
-            cout << "Image inverted successfully.\n";
-        } else if (choice == 5) {
-            blur(img, imgName);
-            cout << "Image blurred successfully.\n";
-        } else if (choice == 6) {
-            cout << "Exiting...\n";
-            s = 1;
-        } else {
-            cout << "Invalid choice. Please enter a number between 1 and 6.\n";
-        }
-    }
-    return 0;
-}
-
-
