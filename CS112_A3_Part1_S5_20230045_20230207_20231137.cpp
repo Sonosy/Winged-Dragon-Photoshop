@@ -12,7 +12,6 @@
 //               Abdelrahman Sonosy (20230207) -> Grayscale.
 //               Mohamed Ayman Fayz (20231137) -> Blur, Rotate, Invert.
 
-#include <iostream>
 #include "Image_Class.h"
 using namespace std;
 
@@ -74,7 +73,7 @@ int main() {
             cout << "Exiting...\n";
             s = 1;
         } else {
-            cout << "Invalid choice. Please enter a number between 1 and 6.\n";
+            cout << "Invalid choice. Please enter a number between 0 and 7.\n";
         }
     }
     return 0;
@@ -82,7 +81,7 @@ int main() {
 
 // Function Definitions
 
-// Function to GreyScale the image
+// Function to turn the image into black and white
 void blackAndWhite(string name, string newName){
     Image BlackAndWhite(name);
     const int THRESHOLD = 127;
